@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 NumberOfAgents = 200
 NumberOfDays = 365
 ProbabilitySusceptible = 95
-PreInfectedAgents = 10
+ProbabilityPreInfected = 5
 LambdaInteractions = 10
 ProbabilityInteractionAgent = NumberOfAgents
 ProbabilityUnsafeInteraction = 2
@@ -39,7 +39,7 @@ def create_agent_records(NumberOfAgents,
         agent_id = i
         agent_active = True
         agent_susceptible = (np.random.uniform(0, 100) <= ProbabilitySusceptible) # True or False susceptible
-        agent_infected = (i+1 <= PreInfectedAgents) # True or False already infected day one
+        agent_infected = ((np.random.uniform(0, 100) <= ProbabilityPreInfected) and agent_susceptible)
         agent_incubation_time = int(np.random.normal(MeanIncubationTime, StandardDeviationIncubationTime))
         agent_isolation_day = 0
         if agent_infected:
@@ -58,7 +58,7 @@ def create_agent_records(NumberOfAgents,
     df_agent_records = pd.DataFrame(record_list, columns=df_columns)
     return df_agent_records
 
-# create a sample record
+# create the record to check
 df_agent_records = create_agent_records(NumberOfAgents = NumberOfAgents,
                                          ProbabilitySusceptible = ProbabilitySusceptible,
                                          PreInfectedAgents = PreInfectedAgents,
